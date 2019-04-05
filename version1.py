@@ -26,8 +26,13 @@ async def get_article(request):
 
         info = {
             'url':article_url,
-            'extra':{}
+            'extra':{},
+            'authors':[]
         }
+
+        authorOne = None
+        authorTwo = None
+        authorThree = None
 
         for meta in soup.find_all('meta'):
             type = meta.get('name', None)
@@ -53,21 +58,52 @@ async def get_article(request):
             if type=="article:kicker":info['extra']['kicker']=meta.get('content','_')
             if type=="topo:kicker":info['extra']['kicker']=meta.get('content','_')
 
+            # TOPO specific
+            if type=="article:author:1:image":
+                if not authorOne:
+                    authorOne = {}
+                authorOne['image']= image_url_to_data_url(meta.get('content','_'))
+            if type=="article:author:1:name":
+                if not authorOne:
+                    authorOne = {}
+                authorOne['name']= meta.get('content','_')
+            if type=="article:author:2:image":
+                if not authorTwo:
+                    authorTwo = {}
+                authorTwo['image']= image_url_to_data_url(meta.get('content','_'))
+            if type=="article:author:2:name":
+                if not authorTwo:
+                    authorTwo = {}
+                authorTwo['name']= meta.get('content','_')
+            if type=="article:author:3:image":
+                if not authorThree:
+                    authorThree = {}
+                authorThree['image']= image_url_to_data_url(meta.get('content','_'))
+            if type=="article:author:3:name":
+                if not authorThree:
+                    authorThree = {}
+                authorThree['name']= meta.get('content','_')
+
+
+        if authorOne: info['authors'].append(authorOne)
+        if authorTwo: info['authors'].append(authorTwo)
+        if authorThree: info['authors'].append(authorThree)
+
         # image as data
         if info.get('image_url') :
-            print('o')
             im_url = info.get('image_url')
-            im_req = requests.get(im_url)
-            print(im_req.content)
-
-            info['image_data'] = ''
-            img = Image.open(BytesIO(im_req.content))
-            output = BytesIO()
-            img.save(output, format='JPEG')
-            hex_data = output.getvalue()
-            info['image_data'] = "data:image/jpg;base64,"+str(standard_b64encode(hex_data), 'utf-8')
+            info['image_data'] = image_url_to_data_url(im_url)
 
         return json({
             'status':'ok',
             'data': info
         })
+
+
+def image_url_to_data_url(image_url):
+    im_req = requests.get(image_url)
+    img = Image.open(BytesIO(im_req.content))
+    output = BytesIO()
+    img.save(output, format='PNG')
+    hex_data = output.getvalue()
+    return "data:image/png;base64,"+str(standard_b64encode(hex_data), 'utf-8')
