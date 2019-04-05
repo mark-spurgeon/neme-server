@@ -1,3 +1,4 @@
+import os
 from sanic import Sanic
 from sanic.response import json
 
@@ -21,4 +22,5 @@ async def welcome(request):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    port = os.environ.get('PORT', 3000)
+    app.run(host='0.0.0.0', port=port, debug=True)
