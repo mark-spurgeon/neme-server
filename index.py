@@ -1,11 +1,13 @@
 import os
 from sanic import Sanic
 from sanic.response import json
+from sanic_cors import CORS, cross_origin
 
 from version1 import v1
 
 
 app = Sanic(__name__)
+CORS(app)
 app.blueprint(v1)
 
 

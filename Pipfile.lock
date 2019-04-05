@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b6e0ef607e885caa3d3d25aa60e6d2e3aa988beb0809c81ddf60611b38c62b80"
+            "sha256": "2215613d31237241e18904665f654490960683336d367b1734b2caa83f99f28c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -163,6 +163,21 @@
             ],
             "index": "pypi",
             "version": "==19.3.1"
+        },
+        "sanic-cors": {
+            "hashes": [
+                "sha256:0fbc4dab23f5e74bd0280863a92d60cffd5961186838b3f0821794a5528b0cd5",
+                "sha256:cd679c404c829656a892766fdbc9446c9560d0d9e9d407d582e6224f0c32e22c"
+            ],
+            "index": "pypi",
+            "version": "==0.9.8"
+        },
+        "sanic-plugins-framework": {
+            "hashes": [
+                "sha256:59bcb23b46a7c03443570625f84e8f0d31c9869e32f871e680afbc68fc86887f",
+                "sha256:5ad6f40b2a7dedb35a4760df55f4e05c90b6eca4b2f63c02b7b1c6a5f7da094a"
+            ],
+            "version": "==0.7.0"
         },
         "soupsieve": {
             "hashes": [
