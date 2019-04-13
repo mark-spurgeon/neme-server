@@ -10,9 +10,6 @@ app = Sanic(__name__)
 CORS(app)
 app.blueprint(v1)
 
-@app.middleware('response')
-async def cache(request, response):
-	response.headers["Cache-Control"] = "public,max-age=31536000"
 
 @app.route('/')
 async def welcome(request):
